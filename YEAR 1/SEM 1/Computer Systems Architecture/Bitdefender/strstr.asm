@@ -96,11 +96,13 @@ _main:
 		push format
 		call _printf
 		add esp,8
+		jmp to_exit
 		
 		print_not_found:
 			push message
 			call _printf
 			add esp,4
+		to_exit:
         push    0
         call    _exit
         ret 
@@ -109,4 +111,4 @@ section .data
 message: db 'substring not found',0
 format: db '[%d,%d]',0
 haystack: db 'banana',0
-needle: db 'abc',0
+needle: db 'ana',0
