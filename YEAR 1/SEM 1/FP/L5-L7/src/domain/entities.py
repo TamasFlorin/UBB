@@ -1,9 +1,6 @@
-from util.common import Common
-from _collections import OrderedDict
-import inspect
-
+from _datetime import datetime
 class Person(object):
-    def __init__(self,person_id,name,phone_number,address):
+    def __init__(self,person_id:int,name:str,phone_number:str,address:str):
         self.__person_id = person_id
         self.__name = name
         self.__phone_number = phone_number
@@ -38,7 +35,7 @@ class Person(object):
         self.__address = value
 
     def __str__(self):
-        return "id:{0} name:{1} phone number:{2} address:{3}".format(self.__person_id,self.__name,self.__phone_number,self.__address)
+        return "id={0} name={1} phone number={2} address={3}".format(self.__person_id,self.__name,self.__phone_number,self.__address)
 
     def __eq__(self,other):
         return self.__person_id==other.entity_id
@@ -47,7 +44,7 @@ class Person(object):
         return not self.__eq__(other)
 
 class Activity(object):
-    def __init__(self,activity_id,date,time,description):
+    def __init__(self,activity_id:int,date,time,description:str):
         self.__activity_id = activity_id
         self.__date = date
         self.__time = time
@@ -92,7 +89,7 @@ class Activity(object):
 
 class Participation:
     """Class used to link the person with the activity."""
-    def __init__(self,participation_id,person_id,activity_id):
+    def __init__(self,participation_id:int,person_id:int,activity_id:int):
         self.__participation_id = participation_id
         self.__person_id = person_id
         self.__activity_id = activity_id

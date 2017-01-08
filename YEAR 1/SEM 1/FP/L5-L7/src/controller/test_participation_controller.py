@@ -25,6 +25,8 @@ class TestParticipationController(unittest.TestCase):
 
         self.activity_controller.add(1,Common.convert_to_date("15.11.2016"),Common.convert_to_time("06:03"),"description")
         self.activity_controller.add(2,Common.convert_to_date("16.11.2016"),Common.convert_to_time("06:03"),"description")
+        #self.activity_controller.add(3,Common.convert_to_date("16.11.2016"),Common.convert_to_time("06:04"),"description")
+        #self.activity_controller.add(4,Common.convert_to_date("16.11.2016"),Common.convert_to_time("06:06"),"description")
 
         return super().setUp()
 

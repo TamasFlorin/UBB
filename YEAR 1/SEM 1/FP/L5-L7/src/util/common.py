@@ -2,7 +2,7 @@ import datetime
 
 class Common:
     @staticmethod
-    def print_iterable(iterable:list):
+    def print_iterable(iterable):
         for e in iterable:
             print(e)
 
@@ -42,18 +42,3 @@ class Common:
             return datetime.time
 
         return str
-
-    def try_convert(arg:str,arg_type):
-        """Try to convert a string representation to a given type."""
-
-        if arg_type is datetime.time and Common.get_type(arg) is datetime.time:
-            return True
-
-        if arg_type is datetime.date and Common.get_type(arg) is datetime.date:
-            return True
-
-        try:
-            arg = arg_type(arg)
-            return True
-        except:
-            return False

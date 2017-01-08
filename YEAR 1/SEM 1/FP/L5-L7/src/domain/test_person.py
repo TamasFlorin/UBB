@@ -1,5 +1,5 @@
 import unittest
-from domain.Entities import Person
+from domain.entities import Person
 
 class TestPerson(unittest.TestCase):
     def setUp(self):

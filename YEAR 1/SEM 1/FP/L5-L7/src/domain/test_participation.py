@@ -1,5 +1,5 @@
 import unittest
-from domain.Entities import Participation
+from domain.entities import Participation
 
 class TestParticipation(unittest.TestCase):
     def setUp(self):

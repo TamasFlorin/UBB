@@ -1,5 +1,5 @@
 import unittest
-from domain.Entities import Person, Activity, Participation
+from domain.entities import Person, Activity, Participation
 from domain.validators import PersonValidatorException, PersonValidator, ActivityValidatorException, ActivityValidator, ParticipationValidatorException, ParticipationValidator
 from util.common import Common
 

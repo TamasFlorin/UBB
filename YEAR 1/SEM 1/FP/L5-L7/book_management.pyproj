@@ -26,6 +26,9 @@
     <Compile Include="src\controller\activity_controller.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\controller\call_stack.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\controller\participation_controller.py">
       <SubType>Code</SubType>
     </Compile>
@@ -44,13 +47,16 @@
     <Compile Include="src\controller\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\domain\command.py">
+    <Compile Include="src\domain\custom.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\domain\entities.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\domain\test_activity.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\domain\test_custom.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\domain\test_participation.py">
@@ -71,6 +77,12 @@
     <Compile Include="src\main.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\repository\file_repository.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\repository\pickle_repository.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\repository\repository.py">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +90,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\repository\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\ui\Config.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\ui\console.py">

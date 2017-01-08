@@ -1,4 +1,5 @@
 from domain.validators import BookException, ValidatorException
+from domain.custom import Iterable
 
 class RepositoryException(BookException):
     pass
@@ -14,7 +15,12 @@ class Repository(object):
   
     def __init__(self,validator_class):
         self.__validator_class=validator_class
-        self.__entities = {}
+        #self.__entities = {}
+        self.__entities = Iterable()
+
+    @property
+    def _entities(self):
+        return self.__entities
 
     def find_by_id(self,entity_id):
         """Find an entity by a given id.

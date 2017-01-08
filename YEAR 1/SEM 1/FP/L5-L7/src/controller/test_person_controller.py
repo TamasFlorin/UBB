@@ -2,7 +2,7 @@ import unittest
 from repository.repository import Repository
 from domain.validators import PersonValidator
 from controller.person_controller import PersonController
-from domain.Entities import Person
+from domain.entities import Person
 
 class TestPersonController(unittest.TestCase):
     def setUp(self):

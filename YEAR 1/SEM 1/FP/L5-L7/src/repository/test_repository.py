@@ -1,7 +1,7 @@
 import unittest
 from repository.repository import Repository, RepositoryException, DuplicateIdException, IdNotFoundException
 from domain.validators import PersonValidator
-from domain.Entities import Person
+from domain.entities import Person
 
 class TestRepository(unittest.TestCase):
     def setUp(self):

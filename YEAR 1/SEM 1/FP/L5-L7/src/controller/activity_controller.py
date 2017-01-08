@@ -1,7 +1,10 @@
 from domain.entities import Activity
 from domain.validators import BookException
 from _datetime import timedelta
-import datetime
+from util.common import Common
+from domain.custom import filter
+from domain.custom import sort
+
 class ActivityControllerException(BookException):
     pass
 
@@ -10,7 +13,23 @@ class ActivityController(object):
         """Initialize the activity repository."""
         self.__activity_repository = activity_repository
 
-    def add(self,id:int,date:datetime.date,time:datetime.time,description:str):
+    @staticmethod
+    def read_entity(file_name):
+        with open(file_name,'r') as f:
+            line = f.read()
+            line = line.split(" ")
+            entity =Activity(int(line[0]),Common.convert_to_date(line[1]),Common.convert_to_time(line[2]),line[3])
+            return entity
+
+        return None
+
+    @staticmethod
+    def write_entity(file_name,entity):
+        with open(file_name,'w') as f:
+            line = str(entity.entity_id) + " " + str(entity.date) +" "+ str(entity.time) +" "+ str(entity.description)
+            f.write(line)
+
+    def add(self,id,date,time,description):
         """Add a new person to the person repository.
         Args:
             id(uint): the id of the activity.
@@ -28,15 +47,15 @@ class ActivityController(object):
 
         self.__activity_repository.save(Activity(id,date,time,description))
 
-    def remove(self,id:int):
+    def remove(self,id):
         """Remove an activity that matches the given id.
         Args:
             id(uint): the id of the activity to be removed.
         Returns None
         """
         self.__activity_repository.delete_by_id(id)
-        
-    def update(self,id:int,date:datetime.date,time:datetime.time,description:str):
+
+    def update(self,id,date,time,description):
         """Update an activity that macthes the given id.
         Args:
             id(uint): the id of the activity to be updated.
@@ -52,7 +71,7 @@ class ActivityController(object):
         """Return all of the activities as a dict list."""
         return self.__activity_repository.get_all()
 
-    def find_by_id(self,id:int):
+    def find_by_id(self,id):
         """Find an activity that matches a given id.
         Args:
             id(uint): the id of the activity to be found.
@@ -61,7 +80,7 @@ class ActivityController(object):
         """
         return self.__activity_repository.find_by_id(id)
 
-    def find_by_date(self,date:datetime.date):
+    def find_by_date(self,date):
         """Find activities  matching a given date.
         Args:
             date(_datetime.date): the date on which the activities take
@@ -70,7 +89,7 @@ class ActivityController(object):
         """
         return list(filter(lambda x: x.date == date,self.get_all()))
 
-    def find_by_time(self,time:datetime.time):
+    def find_by_time(self,time):
         """Find activities matching a given time.
         Args:
             time(_datetime.time): the time in which the activities take place
@@ -79,7 +98,7 @@ class ActivityController(object):
         """
         return list(filter(lambda x: x.time == time,self.get_all()))
 
-    def find_by_description(self,description:str):
+    def find_by_description(self,description):
         """Find activities matching a given description(partial string matching).
         Args:
             description(str): the description of the activities to be found
@@ -88,7 +107,7 @@ class ActivityController(object):
         """
         return list(filter(lambda x: description in x.description,self.get_all()))
 
-    def find_by_day(self,day:int):
+    def find_by_day(self,day):
         """Find activities matching a given day.
         Args:
             day(uint): the day to find the activities for
@@ -96,7 +115,7 @@ class ActivityController(object):
             the activities taking place in the given day."""
         return list(filter(lambda x: x.date.day == day , self.get_all()))
 
-    def __compute_week_date(self,week:int):
+    def __compute_week_date(self,week):
         """Compute the week date by a given week number.
         Args:
             week(uint): the week to compute the date for.
@@ -106,7 +125,7 @@ class ActivityController(object):
         week_date = min(self.get_all(),key=lambda x: x.date).date+timedelta(days=7*(week))
         return week_date
 
-    def find_by_week(self,week:int):
+    def find_by_week(self,week):
         """Find activities by a given week number.
         Args:
             week(uint): the week to find the activities for
