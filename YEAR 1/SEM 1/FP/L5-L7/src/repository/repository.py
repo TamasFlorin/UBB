@@ -15,8 +15,7 @@ class Repository(object):
   
     def __init__(self,validator_class):
         self.__validator_class=validator_class
-        #self.__entities = {}
-        self.__entities = Iterable()
+        self.__entities = {}
 
     @property
     def _entities(self):
