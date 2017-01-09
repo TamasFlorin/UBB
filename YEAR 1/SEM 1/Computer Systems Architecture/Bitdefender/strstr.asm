@@ -89,9 +89,12 @@ _main:
 		push needle
 		call _strlen
 		
+		sub eax,haystack
+		add ebx,eax
+		dec ebx
 		push ebx
 		; the result is stored in eax
-		sub eax,haystack
+
 		push eax
 		push format
 		call _printf
@@ -110,5 +113,5 @@ _main:
 section .data
 message: db 'substring not found',0
 format: db '[%d,%d]',0
-haystack: db 'banana',0
+haystack: db 'bnnana',0
 needle: db 'ana',0
