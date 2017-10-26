@@ -49,4 +49,16 @@ public class MyList<E> implements MyIList<E> {
     public int size() {
         return this.list.size();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(E element : this.list) {
+            stringBuilder.append(element);
+            stringBuilder.append("\r\n");
+        }
+
+        return stringBuilder.toString();
+    }
 }

@@ -2,7 +2,8 @@ package Repository;
 
 import Model.State.ProgramState;
 
-public interface IRepository<E> {
-    void add(E element);
-    E back() throws RepositoryException;
+public interface IRepository {
+    void add(ProgramState state);
+    ProgramState back() throws RepositoryException;
+    void logData() throws RepositoryException;
 }

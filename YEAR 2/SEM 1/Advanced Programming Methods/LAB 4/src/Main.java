@@ -12,6 +12,12 @@ import Util.List.MyIList;
 import Util.List.MyList;
 import Util.Stack.MyIStack;
 import Util.Stack.MyStack;
+import Util.Tuple.Tuple;
+import View.ExitCommand;
+import View.RunExampleCommand;
+import View.TextView;
+
+import java.io.BufferedReader;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,26 +40,48 @@ public class Main {
                            new VariableExpression("b"))
         );
 
+        IStatement openFile = new OpenFileStatement("var_f","1.txt");
+        IStatement readFile = new ReadFileStatement(new VariableExpression("var_f"),"var_c");
+        IStatement printC = new PrintStatement(new VariableExpression("var_c"));
+
+        IStatement check = new IfStatement(new VariableExpression("var_c"),
+                new CompoundStatement(new ReadFileStatement(new VariableExpression("var_f"),"var_c"),
+                        new PrintStatement(new VariableExpression("var_c"))),
+                new PrintStatement(new ConstantExpression(0)));
+
+        IStatement closeFile = new CloseFileStatement(new VariableExpression("var_f"));
+
         MyIStack<IStatement> executionStack = new MyStack<>();
+
+        executionStack.push(check);
+        executionStack.push(printC);
+        executionStack.push(readFile);
+        executionStack.push(openFile);
 
         executionStack.push(fourth);
         executionStack.push(third);
         executionStack.push(second);
         executionStack.push(first);
 
-        MyIDictionary<String, Integer> symbolTable= new MyDictionary<>() {};
-        MyIList<Integer> output = new MyList<>();
-        ProgramState state = new ProgramState(executionStack,symbolTable,output,first);
+        MyIDictionary<String, Integer> symbolTable= new MyDictionary<>();
+        MyIDictionary<Integer,Tuple<String,BufferedReader>> fileTable = new MyDictionary<>();
 
-        IRepository<ProgramState> repository = new MemoryRepository<>();
-        repository.add(state);
-        InterpreterController controller = new InterpreterController(repository);
+        MyIList<Integer> output = new MyList<>();
+        ProgramState state = new ProgramState(executionStack,symbolTable,output,first,fileTable);
+        IRepository repository;
+        InterpreterController controller;
 
         try {
-            controller.executeAllSteps();
+            repository = new MemoryRepository("test.txt");
+            repository.add(state);
+            controller = new InterpreterController(repository);
+            TextView view = new TextView();
+            view.addCommand(new ExitCommand("0","exit"));
+            view.addCommand(new RunExampleCommand("1","First example",controller));
+            view.show();
         }
         catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

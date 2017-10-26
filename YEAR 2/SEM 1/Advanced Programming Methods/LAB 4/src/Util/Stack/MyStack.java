@@ -26,4 +26,16 @@ public class MyStack<E> implements MyIStack<E> {
     public boolean isEmpty() {
         return this.stack.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (E element : stack) {
+            stringBuilder.append(element);
+            stringBuilder.append("\r\n");
+        }
+
+        return stringBuilder.toString();
+    }
 }

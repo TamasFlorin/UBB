@@ -18,7 +18,7 @@ public class PrintStatement implements IStatement {
     }
 
     @Override
-    public ProgramState execute(ProgramState state) throws ExpressionException{
+    public ProgramState execute(ProgramState state) throws ExpressionException {
         int result = expression.evaluate(state.getSymbolTable());
         MyIList<Integer> output = state.getOutput();
 
