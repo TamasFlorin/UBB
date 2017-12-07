@@ -23,6 +23,14 @@ public class MyStack<E> implements MyIStack<E> {
     }
 
     @Override
+    public E top() throws StackException {
+        if(this.isEmpty())
+            throw new StackException("Stack is empty!");
+
+        return this.stack.peek();
+    }
+
+    @Override
     public boolean isEmpty() {
         return this.stack.isEmpty();
     }

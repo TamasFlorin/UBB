@@ -18,7 +18,7 @@ public class IfStatement implements IStatement {
 
     @Override
     public ProgramState execute(ProgramState programState) throws ExpressionException {
-        int result = this.expression.evaluate(programState.getSymbolTable());
+        int result = this.expression.evaluate(programState.getSymbolTable(),programState.getHeap());
 
         MyIStack<IStatement> executionStack = programState.getExecutionStack();
 

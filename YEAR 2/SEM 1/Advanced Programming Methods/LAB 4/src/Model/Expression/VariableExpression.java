@@ -1,6 +1,7 @@
 package Model.Expression;
 
 import Util.Dictionary.MyIDictionary;
+import Util.Heap.IHeap;
 
 public class VariableExpression implements IExpression {
     private String name;
@@ -10,7 +11,7 @@ public class VariableExpression implements IExpression {
     }
 
     @Override
-    public int evaluate(MyIDictionary<String,Integer> symbolTable) throws ExpressionException {
+    public int evaluate(MyIDictionary<String,Integer> symbolTable, IHeap heap) throws ExpressionException {
         if(symbolTable.containsKey(this.name))
             return symbolTable.get(this.name);
 

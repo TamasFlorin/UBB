@@ -1,6 +1,7 @@
 package Model.Expression;
 
 import Util.Dictionary.MyIDictionary;
+import Util.Heap.IHeap;
 
 public class ConstantExpression implements IExpression {
     private int value;
@@ -10,7 +11,7 @@ public class ConstantExpression implements IExpression {
     }
 
     @Override
-    public int evaluate(MyIDictionary<String,Integer> symbolTable) throws ExpressionException {
+    public int evaluate(MyIDictionary<String,Integer> symbolTable, IHeap heap) throws ExpressionException {
         return this.value;
     }
 

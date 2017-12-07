@@ -38,6 +38,10 @@ public class MemoryRepository implements IRepository {
         logWriter.println(symbolTable);
         logWriter.println("OUTPUT:");
         logWriter.println(output);
+        logWriter.println("FILE TABLE:");
+        logWriter.println(state.getFileTable());
+        logWriter.println("HEAP:");
+        logWriter.println(state.getHeap());
     }
 
     @Override

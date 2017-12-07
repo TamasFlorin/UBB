@@ -19,13 +19,13 @@ public class PrintStatement implements IStatement {
 
     @Override
     public ProgramState execute(ProgramState state) throws ExpressionException {
-        int result = expression.evaluate(state.getSymbolTable());
+        int result = expression.evaluate(state.getSymbolTable(),state.getHeap());
         MyIList<Integer> output = state.getOutput();
 
         output.add(result);
 
         // this needs to be removed from here
-        System.out.println(result);
+        //System.out.println(result);
 
         return state;
     }

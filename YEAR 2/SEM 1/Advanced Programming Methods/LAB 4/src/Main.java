@@ -1,6 +1,7 @@
 import Controller.InterpreterController;
 import Model.Expression.ArithmeticExpression;
 import Model.Expression.ConstantExpression;
+import Model.Expression.ReadHeapExpression;
 import Model.Expression.VariableExpression;
 import Model.State.ProgramState;
 import Model.Statement.*;
@@ -8,6 +9,8 @@ import Repository.IRepository;
 import Repository.MemoryRepository;
 import Util.Dictionary.MyDictionary;
 import Util.Dictionary.MyIDictionary;
+import Util.Heap.Heap;
+import Util.Heap.IHeap;
 import Util.List.MyIList;
 import Util.List.MyList;
 import Util.Stack.MyIStack;
@@ -51,9 +54,38 @@ public class Main {
 
         IStatement closeFile = new CloseFileStatement(new VariableExpression("var_f"));
 
+        // test heap allocation
+        IStatement newVar = new AssignmentStatement("v",new ConstantExpression(10));
+        IStatement newStatement = new NewStatement("v",new ConstantExpression(20));
+        IStatement newStatement1 = new NewStatement("var_a",new ConstantExpression(22));
+        IStatement writeHeap = new WriteHeapStatement("var_a",new ConstantExpression(30));
+        IStatement printVar = new PrintStatement(new VariableExpression("var_a"));
+        IStatement printHeapValue = new PrintStatement(new ReadHeapExpression("var_a"));
+        IStatement assignStatement = new AssignmentStatement("var_a",new ConstantExpression(0));
+
+        IStatement setV = new AssignmentStatement("v",new ConstantExpression(6));
+        IStatement whileStmt = new WhileStatement(new ArithmeticExpression('-',
+                new VariableExpression("v"),new ConstantExpression(4)));
+        IStatement comp = new CompoundStatement(new PrintStatement(new VariableExpression("v")),
+                new AssignmentStatement("v",new ArithmeticExpression('-',new VariableExpression("v"),
+                        new ConstantExpression(1))));
+
         MyIStack<IStatement> executionStack = new MyStack<>();
 
-        executionStack.push(check);
+        //executionStack.push(comp);
+        //executionStack.push(whileStmt);
+        //executionStack.push(setV);
+
+        executionStack.push(assignStatement);
+        executionStack.push(printHeapValue);
+        executionStack.push(printVar);
+        executionStack.push(writeHeap);
+        executionStack.push(newStatement1);
+        executionStack.push(newStatement);
+        executionStack.push(newVar);
+
+
+        /*executionStack.push(check);
         executionStack.push(printC);
         executionStack.push(readFile);
         executionStack.push(openFile);
@@ -62,12 +94,14 @@ public class Main {
         executionStack.push(third);
         executionStack.push(second);
         executionStack.push(first);
-
+        */
         MyIDictionary<String, Integer> symbolTable= new MyDictionary<>();
         MyIDictionary<Integer,Tuple<String,BufferedReader>> fileTable = new MyDictionary<>();
 
         MyIList<Integer> output = new MyList<>();
-        ProgramState state = new ProgramState(executionStack,symbolTable,output,first,fileTable);
+        IHeap heap = new Heap();
+
+        ProgramState state = new ProgramState(executionStack,symbolTable,output,first,fileTable, heap);
         IRepository repository;
         InterpreterController controller;
 

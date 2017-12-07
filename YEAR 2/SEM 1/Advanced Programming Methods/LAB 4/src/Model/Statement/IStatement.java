@@ -7,5 +7,5 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface IStatement {
-    ProgramState execute(ProgramState programState) throws ExpressionException, StatementException, IOException;
+    ProgramState execute(ProgramState programState) throws ExpressionException, StatementException;
 }

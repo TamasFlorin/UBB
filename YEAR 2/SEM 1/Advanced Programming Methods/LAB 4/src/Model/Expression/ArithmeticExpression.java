@@ -1,6 +1,7 @@
 package Model.Expression;
 
 import Util.Dictionary.MyIDictionary;
+import Util.Heap.IHeap;
 
 public class ArithmeticExpression implements IExpression {
     private char operator;
@@ -13,9 +14,9 @@ public class ArithmeticExpression implements IExpression {
     }
 
     @Override
-    public int evaluate(MyIDictionary<String,Integer> symbolTable) throws ExpressionException{
-        int first = this.operand1.evaluate(symbolTable);
-        int second = this.operand2.evaluate(symbolTable);
+    public int evaluate(MyIDictionary<String,Integer> symbolTable,IHeap heap) throws ExpressionException{
+        int first = this.operand1.evaluate(symbolTable,heap);
+        int second = this.operand2.evaluate(symbolTable,heap);
 
         switch(this.operator) {
             case '+': return first + second;

@@ -21,7 +21,7 @@ public class ReadFileStatement implements IStatement {
     public ProgramState execute(ProgramState programState) throws ExpressionException, StatementException {
         MyIDictionary<String,Integer> symbolTable = programState.getSymbolTable();
 
-        int uniqueId = expFileId.evaluate(symbolTable);
+        int uniqueId = expFileId.evaluate(symbolTable,programState.getHeap());
         Tuple<String, BufferedReader> tuple = programState.getFileTable().get(uniqueId);
 
         if( tuple == null){
@@ -42,5 +42,10 @@ public class ReadFileStatement implements IStatement {
         symbolTable.put(this.varName,value);
 
         return programState;
+    }
+
+    @Override
+    public String toString() {
+        return "ReadFileStatement(" + this.varName + "," + this.expFileId + ")";
     }
 }

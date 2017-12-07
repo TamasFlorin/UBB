@@ -19,7 +19,7 @@ public class CloseFileStatement implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws ExpressionException, StatementException {
         MyIDictionary<String,Integer> symbolTable = programState.getSymbolTable();
-        int fileId = expFileId.evaluate(symbolTable);
+        int fileId = expFileId.evaluate(symbolTable,programState.getHeap());
 
         Tuple<String, BufferedReader> tuple = programState.getFileTable().get(fileId);
 
@@ -40,5 +40,10 @@ public class CloseFileStatement implements IStatement {
         programState.getFileTable().remove(fileId);
 
         return programState;
+    }
+
+    @Override
+    public String toString() {
+        return "CloseFileStatement(" + this.expFileId + ")";
     }
 }

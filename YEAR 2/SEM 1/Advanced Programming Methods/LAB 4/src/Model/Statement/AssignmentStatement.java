@@ -18,7 +18,7 @@ public class AssignmentStatement implements IStatement {
     public ProgramState execute(ProgramState programState) throws ExpressionException {
         MyIDictionary<String,Integer> symbolTable = programState.getSymbolTable();
 
-        int result = this.expression.evaluate(symbolTable);
+        int result = this.expression.evaluate(symbolTable,programState.getHeap());
 
         // update the value of the variable
         symbolTable.put(this.variable,result);

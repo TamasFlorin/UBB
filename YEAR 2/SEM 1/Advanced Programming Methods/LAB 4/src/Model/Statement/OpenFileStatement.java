@@ -42,6 +42,7 @@ public class OpenFileStatement implements IStatement {
             throw new StatementException("Could not open file!");
         }
 
+        // List of available ids
         int uniqueId = bufferedReader.hashCode();
 
         fileTable.put(uniqueId,new Tuple<>(this.fileName,bufferedReader));
@@ -51,5 +52,10 @@ public class OpenFileStatement implements IStatement {
         symbolTable.put(varFileId,uniqueId);
 
         return programState;
+    }
+
+    @Override
+    public String toString() {
+        return "OpenFileStatement(" + this.varFileId + "," + this.fileName + ")" + "";
     }
 }
