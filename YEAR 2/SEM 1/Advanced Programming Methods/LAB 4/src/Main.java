@@ -64,25 +64,65 @@ public class Main {
         IStatement assignStatement = new AssignmentStatement("var_a",new ConstantExpression(0));
 
         IStatement setV = new AssignmentStatement("v",new ConstantExpression(6));
-        IStatement whileStmt = new WhileStatement(new ArithmeticExpression('-',
-                new VariableExpression("v"),new ConstantExpression(4)));
+
         IStatement comp = new CompoundStatement(new PrintStatement(new VariableExpression("v")),
                 new AssignmentStatement("v",new ArithmeticExpression('-',new VariableExpression("v"),
                         new ConstantExpression(1))));
 
+        IStatement whileStmt = new WhileStatement(new ArithmeticExpression('-',
+                new VariableExpression("v"),new ConstantExpression(4)),comp);
+
+        IStatement forkS = new CompoundStatement(
+                new PrintStatement(
+                        new ConstantExpression(4)
+                ),
+                new ForkStatement(
+                        new PrintStatement( new ConstantExpression(2))
+                )
+
+        );
+
         MyIStack<IStatement> executionStack = new MyStack<>();
+
+        /*
+            Fork example
+            v=10;new(a,22);
+            fork(wH(a,30);v=32;print(v);print(rH(a)));
+            print(v);print(rH(a))
+        */
+
+        executionStack.push(new PrintStatement(new VariableExpression("v")));
+        executionStack.push(new PrintStatement(new ReadHeapExpression("a")));
+
+        executionStack.push(new ForkStatement(new CompoundStatement(
+                new WriteHeapStatement("a",new ConstantExpression(30)),
+                new CompoundStatement(new AssignmentStatement("v",new ConstantExpression(32)),
+                        new CompoundStatement(new PrintStatement(new VariableExpression("v")),
+                                new PrintStatement(new ReadHeapExpression("a")))
+                )
+
+
+        )));
+        executionStack.push(new NewStatement("a",new ConstantExpression(22)));
+        executionStack.push(new AssignmentStatement("v",new ConstantExpression(10)));
+
+        //executionStack.push(forkS);
+
+        //executionStack.push(        new ForkStatement(
+          //     new PrintStatement( new ConstantExpression(2))
+        //));
 
         //executionStack.push(comp);
         //executionStack.push(whileStmt);
         //executionStack.push(setV);
 
-        executionStack.push(assignStatement);
-        executionStack.push(printHeapValue);
-        executionStack.push(printVar);
-        executionStack.push(writeHeap);
-        executionStack.push(newStatement1);
-        executionStack.push(newStatement);
-        executionStack.push(newVar);
+        //executionStack.push(assignStatement);
+        //executionStack.push(printHeapValue);
+        //executionStack.push(printVar);
+        //executionStack.push(writeHeap);
+        //executionStack.push(newStatement1);
+        //executionStack.push(newStatement);
+        //executionStack.push(newVar);
 
 
         /*executionStack.push(check);
@@ -95,13 +135,13 @@ public class Main {
         executionStack.push(second);
         executionStack.push(first);
         */
-        MyIDictionary<String, Integer> symbolTable= new MyDictionary<>();
+        MyIDictionary<String, Integer> symbolTable = new MyDictionary<>();
         MyIDictionary<Integer,Tuple<String,BufferedReader>> fileTable = new MyDictionary<>();
 
         MyIList<Integer> output = new MyList<>();
         IHeap heap = new Heap();
 
-        ProgramState state = new ProgramState(executionStack,symbolTable,output,first,fileTable, heap);
+        ProgramState state = new ProgramState(executionStack,symbolTable,output,fileTable, heap,1);
         IRepository repository;
         InterpreterController controller;
 

@@ -28,7 +28,7 @@ public class IfStatement implements IStatement {
         else
             executionStack.push(this.elseStatement); // false
 
-        return programState;
+        return null;
     }
 
     @Override

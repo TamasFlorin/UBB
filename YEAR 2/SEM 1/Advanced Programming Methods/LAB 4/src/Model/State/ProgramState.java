@@ -1,6 +1,7 @@
 package Model.State;
 
 import Model.Statement.IStatement;
+import Model.Statement.StatementException;
 import Util.Dictionary.MyIDictionary;
 import Util.Heap.IHeap;
 import Util.List.MyIList;
@@ -10,22 +11,22 @@ import Util.Tuple.Tuple;
 import java.io.BufferedReader;
 
 public class ProgramState {
-    private IStatement program; // will be used later
     private MyIStack<IStatement> executionStack;
     private MyIDictionary<String,Integer> symbolTable;
     private MyIList<Integer> output;
     private MyIDictionary<Integer,Tuple<String,BufferedReader>> fileTable;
     private IHeap heap;
+    private long id;
 
     public ProgramState(MyIStack<IStatement> executionStack, MyIDictionary<String, Integer> symbolTable,
-                        MyIList<Integer> output, IStatement program, MyIDictionary<Integer, Tuple<String, BufferedReader>> fileTable, IHeap heap) {
+                        MyIList<Integer> output, MyIDictionary<Integer, Tuple<String, BufferedReader>> fileTable, IHeap heap,long id) {
 
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
-        this.program = program;
         this.output = output;
         this.fileTable = fileTable;
         this.heap = heap;
+        this.id = id;
     }
 
     public MyIStack<IStatement> getExecutionStack() {
@@ -45,9 +46,27 @@ public class ProgramState {
     public IHeap getHeap() {
         return this.heap;
     }
+
+    public boolean isCompleted() { return this.executionStack.isEmpty(); }
+
+    public long getId()
+    {
+        return this.id;
+    }
+
+    public ProgramState oneStep() throws StatementException {
+        if(this.getExecutionStack().isEmpty()) throw new StatementException("Empty stack!");
+        try {
+            IStatement current = this.getExecutionStack().pop();
+            return current.execute(this);
+        }catch(Exception ex)
+        {
+            throw new StatementException("Could not execute current statement!");
+        }
+    }
     
     @Override
     public String toString() {
-        return "Stack:\n" + executionStack + "Symbol table:\n" + symbolTable + "Output:\n" + output + "\n";
+        return "state ID: " + id + "\n" + "Stack:\n" + executionStack + "Symbol table:\n" + symbolTable + "Output:\n" + output + "\n";
     }
 }

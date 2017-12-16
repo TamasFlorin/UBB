@@ -39,7 +39,7 @@ public class CloseFileStatement implements IStatement {
         // delete entry
         programState.getFileTable().remove(fileId);
 
-        return programState;
+        return null;
     }
 
     @Override

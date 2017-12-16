@@ -8,9 +8,10 @@ import Util.Stack.StackException;
 
 public class WhileStatement implements IStatement {
     private final IExpression expression;
+    private final IStatement statement;
 
-    public WhileStatement(IExpression expression) {
-        this.expression = expression;
+    public WhileStatement(IExpression expression,IStatement statement) {
+        this.expression = expression; this.statement = statement;
     }
 
     @Override
@@ -19,23 +20,14 @@ public class WhileStatement implements IStatement {
 
         int value = expression.evaluate(programState.getSymbolTable(),programState.getHeap());
 
-        if( value != 0) {
-            try {
-                IStatement second = stack.top();
-                stack.push(this);
-                stack.push(second);
-            }catch (StackException e){
-                throw new StatementException(e.getMessage());
-            }
-        }else {
-            try {
-                stack.pop();
-            }catch (StackException e){
-                throw new StatementException(e.getMessage());
-            }
+        if( value == 0) {
+            return programState;
         }
 
-        return programState;
+        stack.push(this);
+        stack.push(this.statement);
+
+        return null;
     }
 
     @Override

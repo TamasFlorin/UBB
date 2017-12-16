@@ -27,11 +27,15 @@ public class MemoryRepository implements IRepository {
         this.list = new ArrayList<>();
     }
 
-    private void logState(ProgramState state,PrintWriter logWriter) {
+    public void logState(ProgramState state,PrintWriter logWriter) {
+        if(state == null)
+            return;
         MyIStack<IStatement> executionStack = state.getExecutionStack();
         MyIDictionary<String,Integer> symbolTable = state.getSymbolTable();
         MyIList<Integer> output = state.getOutput();
-
+        if(executionStack == null || symbolTable == null || output == null)
+            return;
+        logWriter.println("State id:" + state.getId());
         logWriter.println("STACK:");
         logWriter.println(executionStack);
         logWriter.println("SYMBOL TABLE:");
@@ -58,18 +62,28 @@ public class MemoryRepository implements IRepository {
     }
 
     @Override
+    public List<ProgramState> getAll() {
+        return new ArrayList<>(this.list);
+    }
+
+    @Override
+    public void setData(List<ProgramState> states) {
+        this.list = new ArrayList<>(states);
+    }
+
+    @Override
     public void logData() throws RepositoryException {
         PrintWriter logWriter;
 
         try {
             logWriter = new PrintWriter(new BufferedWriter(new FileWriter(this.logFilePath, true)));
-        }catch(IOException ex) {
+        } catch (IOException ex) {
             throw new RepositoryException("Could not open log file!");
         }
 
-        for(ProgramState state : this.list) {
+        for (ProgramState state : this.list) {
             logWriter.println("========== STATE ==========");
-            this.logState(state,logWriter);
+            this.logState(state, logWriter);
         }
 
         logWriter.println("---------------------------------");

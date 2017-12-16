@@ -24,9 +24,6 @@ public class PrintStatement implements IStatement {
 
         output.add(result);
 
-        // this needs to be removed from here
-        //System.out.println(result);
-
-        return state;
+        return null;
     }
 }

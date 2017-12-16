@@ -27,7 +27,7 @@ public class WriteHeapStatement implements IStatement {
             throw new StatementException(e.getMessage());
         }
 
-        return programState;
+        return null;
     }
 
     @Override

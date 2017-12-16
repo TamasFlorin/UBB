@@ -51,7 +51,7 @@ public class OpenFileStatement implements IStatement {
 
         symbolTable.put(varFileId,uniqueId);
 
-        return programState;
+        return null;
     }
 
     @Override

@@ -9,6 +9,14 @@ public class MyDictionary<K,V> implements MyIDictionary<K,V> {
         dictionary = new HashMap<>();
     }
 
+    public MyDictionary(MyIDictionary<K,V> dictionary)
+    {
+        this.dictionary = new HashMap<>();
+        for (Map.Entry<K,V> entry: dictionary.entrySet()) {
+            this.dictionary.put(entry.getKey(),entry.getValue());
+        }
+    }
+
     @Override
     public void put(K key, V value) {
         dictionary.put(key,value);
@@ -45,6 +53,7 @@ public class MyDictionary<K,V> implements MyIDictionary<K,V> {
 
         for (Object o : this.dictionary.entrySet()) {
             Map.Entry pair = (Map.Entry) o;
+
             stringBuilder.append("{").append(pair.getKey()).append(";").append(pair.getValue()).append("}");
             stringBuilder.append("\r\n");
         }
@@ -60,5 +69,15 @@ public class MyDictionary<K,V> implements MyIDictionary<K,V> {
     @Override
     public Collection<V> values() {
         return this.dictionary.values();
+    }
+
+    @Override
+    public Set<Map.Entry<K, V>> entrySet() {
+        return this.dictionary.entrySet();
+    }
+
+    @Override
+    public void clear() {
+        this.dictionary.clear();
     }
 }

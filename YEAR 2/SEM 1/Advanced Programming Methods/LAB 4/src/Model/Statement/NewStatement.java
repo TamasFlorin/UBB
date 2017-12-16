@@ -28,7 +28,7 @@ public class NewStatement implements IStatement {
         // set the address of the variable
         symbolTable.put(this.variableName,address);
 
-        return programState;
+        return null;
     }
 
     @Override
