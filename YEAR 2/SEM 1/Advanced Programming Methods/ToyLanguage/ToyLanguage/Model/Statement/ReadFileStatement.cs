@@ -52,5 +52,10 @@ namespace ToyLanguage.Model.Statement
 
             return programState;
         }
+
+        public override string ToString()
+        {
+            return "ReadFileStatement(" + expFileId + "," + varName + ")";
+        }
     }
 }

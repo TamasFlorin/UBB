@@ -9,10 +9,10 @@ namespace ToyLanguage.Util.Table
     class PositionTable
     {
         private int[] nextList;
-        private int currentCapacity = 3;
+        private int currentCapacity = 16;
         private int currentFree;
 
-        private void resize()
+        private void Resize()
         {
             currentCapacity = this.currentCapacity * 2;
 
@@ -57,7 +57,7 @@ namespace ToyLanguage.Util.Table
         {
             currentFree = nextList[currentFree];
 
-            if (currentFree == -1) resize();
+            if (currentFree == -1) Resize();
         }
 
         public void FreePosition(int position)

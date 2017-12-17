@@ -76,6 +76,10 @@
     <Compile Include="Util\Table\FileTable.cs" />
     <Compile Include="Util\Table\FileTableException.cs" />
     <Compile Include="Util\Table\PositionTable.cs" />
+    <Compile Include="View\Command.cs" />
+    <Compile Include="View\ExitCommand.cs" />
+    <Compile Include="View\RunExampleCommand.cs" />
+    <Compile Include="View\TextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

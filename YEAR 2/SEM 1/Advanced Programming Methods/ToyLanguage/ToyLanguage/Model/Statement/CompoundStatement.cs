@@ -17,6 +17,7 @@ namespace ToyLanguage.Model.Statement
         public ProgramState Execute(ProgramState programState)
         {
             MyIStack<IStatement> executionStack = programState.ExecutionStack;
+
             executionStack.Push(second);
             executionStack.Push(first);
 

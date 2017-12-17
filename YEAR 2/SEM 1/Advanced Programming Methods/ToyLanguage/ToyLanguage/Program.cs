@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using ToyLanguage.Controller;
 using ToyLanguage.Model.Expression;
 using ToyLanguage.Model.State;
@@ -7,45 +8,33 @@ using ToyLanguage.Repository;
 using ToyLanguage.Util.Dictionary;
 using ToyLanguage.Util.List;
 using ToyLanguage.Util.Stack;
+using ToyLanguage.View;
 
 namespace ToyLanguage
 {
     class Program
     {
-        static void Main(string[] args)
+        static IStatement MakeCompountStatement(params IStatement [] statements)
         {
+            Debug.Assert(statements.Length > 0);
+
+            IStatement statement = statements[0];
+
+            for (int i = 1; i < statements.Length; i++)
+            {
+                IStatement current = statements[i];
+                statement = new CompoundStatement(statement, current);
+            }
+
+            return statement;
+        }
+
+        static Command GetRunCommand(string key, string description,params IStatement[] statements)
+        {
+            IStatement statement = MakeCompountStatement(statements);
+
             MyIStack<IStatement> executionStack = new MyStack<IStatement>();
-
-            // example: v=2;Print(v)
-            IStatement firstExample = 
-                new CompoundStatement(
-                new PrintStatement(new VariableExpression("v")),
-                new AssignmentStatement("v", new ConstantExpression(2)));
-
-            //executionStack.Push(firstExample);
-            IStatement openFile = new OpenFileStatement("var_f", "input.txt");
-            IStatement readFile = new ReadFileStatement(new VariableExpression("var_f"), "var_c");
-            IStatement printC = new PrintStatement(new VariableExpression("var_c"));
-
-            IStatement check = new IfStatement(new VariableExpression("var_c"),
-                    new CompoundStatement(new ReadFileStatement(new VariableExpression("var_f"), "var_c"),
-                            new PrintStatement(new VariableExpression("var_c"))),
-                    new PrintStatement(new ConstantExpression(0)));
-
-            IStatement closeFile = new CloseFileStatement(new VariableExpression("var_f"));
-            IStatement openFile2 = new OpenFileStatement("var_f1", "input1.txt");
-            IStatement openFile3 = new OpenFileStatement("var_f2", "input2.txt");
-            IStatement openFile4 = new OpenFileStatement("var_f3", "input3.txt");
-
-            executionStack.Push(openFile);
-            executionStack.Push(openFile4);
-            executionStack.Push(openFile3);
-            executionStack.Push(openFile2);
-            executionStack.Push(closeFile);
-            executionStack.Push(check);
-            executionStack.Push(printC);
-            executionStack.Push(readFile);
-            executionStack.Push(openFile);
+            executionStack.Push(statement);
 
             MyIDictionary<string, int> symbolTable = new MyDictionary<string, int>();
             MyIList<int> output = new MyList<int>();
@@ -53,7 +42,38 @@ namespace ToyLanguage
             IRepository repository = new MemoryRepository("log.txt");
             repository.Add(programState);
             InterpreterController controller = new InterpreterController(repository);
-            controller.ExecuteAllSteps();
+
+            return new RunExampleCommand(key, description, controller);
+        }
+
+        static void Main(string[] args)
+        {
+            TextMenu textMenu = new TextMenu();
+
+            textMenu.AddCommand(new ExitCommand("0", "Exit"));
+
+            // first example: v=2;Print(v)
+            Command ex1 = GetRunCommand("1",
+                "Basic statements example",
+                new AssignmentStatement("v", new ConstantExpression(2)),
+                new PrintStatement(new VariableExpression("v")));
+
+            Command ex2 = GetRunCommand(
+                "2",
+                "Example of working with files",
+                new OpenFileStatement("var_f", "input.txt"),
+                new ReadFileStatement(new VariableExpression("var_f"), "var_c"),
+                new PrintStatement(new VariableExpression("var_c")),
+                new IfStatement(new VariableExpression("var_c"),
+                    new CompoundStatement(new ReadFileStatement(new VariableExpression("var_f"), "var_c"),
+                            new PrintStatement(new VariableExpression("var_c"))),
+                    new PrintStatement(new ConstantExpression(0))),
+                    new CloseFileStatement(new VariableExpression("var_f"))
+                );
+
+            textMenu.AddCommand(ex1);
+            textMenu.AddCommand(ex2);
+            textMenu.Show();
         }
     }
 }

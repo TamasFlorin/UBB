@@ -8,7 +8,7 @@ namespace ToyLanguage.Repository
     class MemoryRepository : IRepository
     {
         private readonly MyIList<ProgramState> data = new MyList<ProgramState>();
-        private readonly string logFile = "log.txt";
+        private readonly string logFile;
 
         public MemoryRepository(string logFile)
         {
@@ -34,7 +34,7 @@ namespace ToyLanguage.Repository
         
         private void LogProgramState(ProgramState programState,StreamWriter writer)
         {
-            writer.WriteLine("\\ Program State \\");
+            writer.WriteLine("==== Program State ====");
             writer.WriteLine("ExecutionStack:");
             writer.WriteLine(programState.ExecutionStack);
             writer.WriteLine("SymbolTable:");
