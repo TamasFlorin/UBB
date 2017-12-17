@@ -14,7 +14,7 @@ namespace ToyLanguage
 {
     class Program
     {
-        static IStatement MakeCompountStatement(params IStatement [] statements)
+        static IStatement MakeCompoundStatement(params IStatement [] statements)
         {
             Debug.Assert(statements.Length > 0);
 
@@ -31,7 +31,7 @@ namespace ToyLanguage
 
         static Command GetRunCommand(string key, string description,params IStatement[] statements)
         {
-            IStatement statement = MakeCompountStatement(statements);
+            IStatement statement = MakeCompoundStatement(statements);
 
             MyIStack<IStatement> executionStack = new MyStack<IStatement>();
             executionStack.Push(statement);
